@@ -10,6 +10,10 @@ tableName
     : ID | ID DOT_ASTERISK | ASTERISK
     ;
     
+columnName
+    : ID | ROW
+    ;
+    
 characterSet
     : (CHARACTER | CHAR) SET EQ_? charsetName | CHARSET EQ_? charsetName
     ;
@@ -64,17 +68,13 @@ value
     
 functionCall
     : (ID | DATE) LP_ distinct? (exprs | ASTERISK)? RP_
-    | groupConcat
     | windowFunction
-    ;
-    
-groupConcat
-    : GROUP_CONCAT LP_ distinct? (exprs | ASTERISK)? (orderByClause SEPARATOR expr) RP_
     ;
     
 windowFunction
     : ID exprsWithParen overClause
     ;
+    
 overClause
     : OVER LP_ windowSpec RP_ 
     | OVER ID

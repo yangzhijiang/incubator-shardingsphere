@@ -17,6 +17,10 @@
 
 package io.shardingsphere.core.routing.type.unicast;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import io.shardingsphere.core.routing.type.RoutingEngine;
 import io.shardingsphere.core.routing.type.RoutingResult;
 import io.shardingsphere.core.routing.type.RoutingTable;
@@ -24,10 +28,6 @@ import io.shardingsphere.core.routing.type.TableUnit;
 import io.shardingsphere.core.rule.DataNode;
 import io.shardingsphere.core.rule.ShardingRule;
 import lombok.RequiredArgsConstructor;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 /**
  * Unicast routing engine.
@@ -50,11 +50,11 @@ public final class UnicastRoutingEngine implements RoutingEngine {
             for (String each : logicTables) {
                 routingTables.add(new RoutingTable(each, each));
             }
-            TableUnit tableUnit = new TableUnit(shardingRule.getShardingDataSourceNames().getDataSourceNames().iterator().next());
+            TableUnit tableUnit = new TableUnit(shardingRule.getShardingDataSourceNames().getRandomDataSourceName());
             tableUnit.getRoutingTables().addAll(routingTables);
             result.getTableUnits().getTableUnits().add(tableUnit);
         } else if (logicTables.isEmpty()) {
-            result.getTableUnits().getTableUnits().add(new TableUnit(shardingRule.getShardingDataSourceNames().getDataSourceNames().iterator().next()));
+            result.getTableUnits().getTableUnits().add(new TableUnit(shardingRule.getShardingDataSourceNames().getRandomDataSourceName()));
         } else if (1 == logicTables.size()) {
             String logicTableName = logicTables.iterator().next();
             DataNode dataNode = shardingRule.findDataNode(logicTableName);
